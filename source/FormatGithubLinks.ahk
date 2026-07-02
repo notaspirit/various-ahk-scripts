@@ -43,6 +43,20 @@
         A_Clipboard := formatted
         ToolTip("✓ Transformed to: " . formatted)
 
+    } else if RegExMatch(url, "https://github\.com/([^/]+)/([^/]+)/blob/[^/]+/(.+?)/?$", &m) {
+        ; File link: {username}/{repo}: {filename}
+        owner := m[1]
+        repo := m[2]
+        path := m[3]
+
+        ; Filename is the last segment of the path
+        parts := StrSplit(path, "/")
+        filename := parts[parts.Length]
+
+        formatted := "[" . owner . "/" . repo . ": " . filename . "](<" . url . ">)"
+        A_Clipboard := formatted
+        ToolTip("✓ Transformed to: " . formatted)
+
     } else if RegExMatch(url, "https://github\.com/([^/]+)/([^/]+)/?$", &m) {
         ; Repo link: {username}/{reponame}
         owner := m[1]
